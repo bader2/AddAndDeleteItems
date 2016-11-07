@@ -6,20 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.FooViewHolder> {
     private ArrayList<FooObject> mDataset;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class FooViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public CardView mCard;
-        public ViewHolder(CardView v) {
+        public FooViewHolder(CardView v) {
             super(v);
             mCard = v;
         }
@@ -32,19 +29,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public MyAdapter.FooViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
         final View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.foo_card, parent, false);
         ((TextView) v.findViewById(R.id.bottom_text)).setText("Made By FooFactory");
-        ViewHolder vh = new ViewHolder((CardView) v);
+        FooViewHolder vh = new FooViewHolder((CardView) v);
         return vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(FooViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         ((TextView) holder.mCard.findViewById(R.id.top_text)).setText(mDataset.get(position).name);
@@ -52,7 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.mCard.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int pos = ((ViewHolder) ((CardView)view.getParent().getParent().getParent()).getTag()).getAdapterPosition();
+                int pos = ((FooViewHolder) ((CardView)view.getParent().getParent().getParent()).getTag()).getAdapterPosition();
                 mDataset.remove(pos);
                 notifyItemRemoved(pos);
             }
